@@ -69,6 +69,8 @@ $$\text{CTES} = \text{Retained Rate} \times \frac{ \text{Zero-Crossing Rate}}{\t
 To capture mean-reversion windows of ~30 seconds without bottlenecking statistical calculations, execution is split into two asynchronous modules:
 * **The Brain (1-minute):** Calculates heavy statistics (cointegration parameters, copula marginals, OU constants).
 * **The Action (5-second):** Monitors price spreads at microstructure resolution (92–94% fidelity) and executes trades authorized by *The Brain*.
+<center><img width="784" height="1500" alt="image" src="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f" /></center>
+
   
                                           +---------------------------+
                                           |    Raw Tick Data Feed     |
