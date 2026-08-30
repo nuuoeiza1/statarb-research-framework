@@ -70,7 +70,7 @@ To capture mean-reversion windows of ~30 seconds without bottlenecking statistic
 * **The Brain (1-minute):** Calculates heavy statistics (cointegration parameters, copula marginals, OU constants).
 * **The Action (5-second):** Monitors price spreads at microstructure resolution (92–94% fidelity) and executes trades authorized by *The Brain*.
 <p align="center">
-  <a href="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f" target="_blank">
+  <a href="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f" target="_blank" rel="noopener noreferrer">
     <img src="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f" alt="System Architecture" width="380" />
   </a>
   <br />
