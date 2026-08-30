@@ -70,98 +70,12 @@ To capture mean-reversion windows of ~30 seconds without bottlenecking statistic
 * **The Brain (1-minute):** Calculates heavy statistics (cointegration parameters, copula marginals, OU constants).
 * **The Action (5-second):** Monitors price spreads at microstructure resolution (92–94% fidelity) and executes trades authorized by *The Brain*.
 <p align="center">
-  <a href="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f">
     <img src="https://github.com/user-attachments/assets/398933db-65c1-4cda-ba44-fe4c34c3fb5f" alt="System Architecture" width="380" />
   </a>
   <br />
-  <sub>🔍 <i>Click image to enlarge</i></sub>
+  <sub>🔍 <i>Click image to enlarge (Ctrl/Cmd + Click to open in new tab)</i></sub>
 </p>
-
-  
-                                          +---------------------------+
-                                          |    Raw Tick Data Feed     |
-                                          +---------------------------+
-                                                        |
-                                                        v
-                                          +---------------------------+
-                                          |Data Preprocessing Pipeline|
-                                          +---------------------------+
-                                                        |
-                                                        v
-                     +----------------------------------+----------------------------------+
-                     | Brain Module (1-minute TF)       |                                  |
-                     |                                  v                                  |
-                     |                         /-----------------\                         |
-                     |                        /                   \                        |
-                     |                       < Sampling Frequency  >                       |
-                     |                        \                   /                        |
-                     |                         \-----------------/                         |
-                     |                           /             \                           |
-                     |                          /               \                          |
-                     |                         v                 \                         |
-                     |       +-------------------+                \                        |
-                     |       | 1-min OHLC        |                 \                       |
-                     |       | Resampling        |                  \                      |
-                     |       +-------------------+                   \                     |
-                     |                 |                              \                    |
-                     |                 v                               \                   |
-                     |       +-------------------+                      \                  |
-                     |       | Champion Model:   |                       |                 |
-                     |       | Copula_OU AR1     |                       |                 |
-                     |       +-------------------+                       |                 |
-                     |                 |                                 |                 |
-                     |                 v                                 |                 |
-                     |       +-------------------+                       |                 |
-                     |       | Sequential        |                       |                 |
-                     |       | Statistical Gating|                       |                 |
-                     |       +-------------------+                       |                 |
-                     |                 |                                 |                 |
-                     |                 v                                 |                 |
-                     |       +-------------------+                       |                 |
-                     |       | Parameter Calib:  |                       |                 |
-                     |       | Hedge Ratio/MI/OU |                       |                 |
-                     |       +-------------------+                       |                 |
-                     |                 |                                 |                 |
-                     |                 v                                 |                 |
-                     |       +-------------------+                       |                 |
-                     |       | Generate Trade    |                       |                 |
-                     |       | Signal Bundle     |                       |                 |
-                     |       +-------------------+                       |                 |
-                     +-----------------|---------------------------------|-----------------+
-                                       |                                 |
-                                       |                                 v
-                                       |               +-----------------------------------+
-                                       |               | Action Module (5-second TF)       |
-                                       |               |                                   |
-                                       |               |       +-------------------+       |
-                                       |               |       | 5-sec OHLC        |       |
-                                       |               |       | Resampling        |       |
-                                       |               |       +-------------------+       |
-                                       |               |                 |                 |
-                                       |               |                 v                 |
-                                       |               |       +-------------------+       |
-                                       |               |       | Monitor Micro-    |       |
-                                       |               |       | Spread Convergence|       |
-                                       |               |       +-------------------+       |
-                                       |               |                 |                 |
-                                       |               |                 v                 |
-                                       |---------------------->+-------------------+       |
-                                        (Signal Bundle)|       | Listen for Entry/ |       |
-                                         Transmission  |       | Exit Authorization|       |
-                                                       |       +-------------------+       |
-                                                       |                 |                 |
-                                                       |                 v                 |
-                                                       |       +-------------------+       |
-                                                       |       | Order Execution   |       |
-                                                       |       +-------------------+       |
-                                                       +-----------------|-----------------+
-                                                                         |
-                                                                         v
-                                                           +---------------------------+
-                                                           |    Action Log & PnL       |
-                                                           |       Monitoring          |
-                                                           +---------------------------+
-
 
 ### 5. Risk Management & Proprietary Session Guard
 * **Session Guard:** Blocks entry signals during the first 90 minutes of the New York trading session to prevent losses caused by zero tail dependence violations, momentum jumps, and bid-ask spread noise at the open.
